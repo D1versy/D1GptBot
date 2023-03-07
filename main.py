@@ -8,9 +8,8 @@ import openai
 import os
 
 # Set up your OpenAI API credentials
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+GPT_BOT_TOKEN = os.getenv("GPT_BOT_TOKEN")
 openai.api_key = os.getenv("OPENAI_KEY")
-
 
 def start_handler(update, context):
     update.message.reply_text("Hello! I'm a bot that can answer questions. Just send me a question and I'll do my best to answer it.\nMore details: /help")
@@ -21,7 +20,7 @@ def about_handler(update, context):
 
 
 def help_handler(update, context):
-    update.message.reply_text('BOT Commands : /start , /about\n"Availables D1 bots:\nhttps://t.me/D1VideoBot\nhttps://t.me/D1GptBot\nhttps://t.me/D1TikTokBot')
+    update.message.reply_text('BOT Commands : /start , /about\n"Available D1 bots:\nhttps://t.me/D1VideoBot\nhttps://t.me/D1GptBot\nhttps://t.me/D1TikTokBot')
 
 
 def answer_question(message, update, context):
@@ -53,7 +52,7 @@ def incoming_message_action(update, context):
 
 def main() -> None:
     """Run the bot."""
-    updater = Updater(BOT_TOKEN)
+    updater = Updater(GPT_BOT_TOKEN)
     dispatcher = updater.dispatcher
 
     # Commands Listning
