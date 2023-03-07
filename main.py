@@ -32,7 +32,7 @@ def help_handler(update, context):
 def answer_question(update, context):
     message = update.message
     file = open(f'./log.txt', "a+")
-    file.write(f"{message.from_user.username} => {message.text}")git
+    file.write(f"{message.from_user.username} => {message.text}")
     file.write("\n")
     file.close()
     status_msg = message.reply_text("🚀 Processing ... \n it might take some time :)")
