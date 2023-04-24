@@ -55,7 +55,7 @@ def help_handler(update, context):
         'BOT Commands : /start , /about\nAvailable D1 bots:\nhttps://t.me/D1VideoBot\nhttps://t.me/D1GptBot\nhttps://t.me/D1TikTokBot')
 
 
-def chat_gpt_request(prompt, max_tokens=150):
+def chat_gpt_request(prompt, max_tokens=1024):
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
