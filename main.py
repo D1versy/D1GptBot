@@ -82,17 +82,51 @@ def handle_user_message(user_id, message, user_histories):
     user_history.add_message("bot", response)
     return response
 
+def log_unique_user_id(user_id, log_file='Users.log'):
+    unique_user_ids = set()
+
+    if os.path.exists(log_file):
+        with open(log_file, 'r') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if line:
+                    unique_user_ids.add(int(line))
+
+    if user_id not in unique_user_ids:
+        unique_user_ids.add(user_id)
+        with open(log_file, 'a') as f:
+            f.write(f"{user_id}\n")
+
 
 def answer_question(update, context):
     message = update.message
     user_id = message.from_user.id
+    username = message.from_user.username
     user_message = message.text.strip()
+    log_unique_user_id(user_id)
+
+    # Use username if available, otherwise use user_id as a filename
+    filename = f'{username, user_id or user_id}.txt'
+    filepath = os.path.join('./logs', filename)
+
+    # Create 'logs' directory if it doesn't exist
+    os.makedirs('./logs', exist_ok=True)
+
+    with open(filepath, "a+", encoding='utf-8') as file:
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {username or user_id} => {message.text}")
+        file.write("\n")
 
     context.bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
 
     try:
         response = handle_user_message(user_id, user_message, user_histories)
         update.message.reply_text(response)
+
+        # Save the bot's response to the file
+        with open(filepath, "a+", encoding='utf-8') as file:
+            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - BOT => {response}")
+            file.write("\n")
+
     except Exception as ex:
         print(ex)
         update.message.reply_text(

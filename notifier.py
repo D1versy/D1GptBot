@@ -7,7 +7,7 @@ import os
 GPT_BOT_TOKEN = os.getenv("GPT_BOT_TOKEN")
 
 # Message to send to all users
-message_text = "Test"
+message_text = ""
 
 def read_user_ids(file_path):
     with open(file_path, 'r') as file:
